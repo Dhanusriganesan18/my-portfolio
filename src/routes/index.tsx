@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useSpring } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import profileImage from "../assets/WhatsApp Image 2025-09-15 at 01.45.46_62c318a5.jpg";
 import {
   Github,
   Linkedin,
@@ -23,7 +24,7 @@ import {
   Layers,
   Globe,
 } from "lucide-react";
-import profileAsset from "@/assets/dhanusri.jpg.asset.json";
+
 
 const NAV = [
   { id: "home", label: "Home" },
@@ -51,7 +52,7 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
-function Portfolio() {
+export function Portfolio() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 25 });
   const [active, setActive] = useState("home");
@@ -342,7 +343,7 @@ function Hero() {
           <div className="glass-strong glow-ring relative h-full w-full overflow-hidden rounded-[2rem] p-2">
             <div className="relative h-full w-full overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-blue/30 via-purple/20 to-cyan/30">
               <img
-                src={profileAsset.url}
+                src={profileImage}
                 alt="Dhanusri Ganesan"
                 className="h-full w-full object-cover"
               />
@@ -389,7 +390,7 @@ function Section({
   className = "",
 }: {
   id: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
   return (
@@ -855,6 +856,8 @@ function Certs() {
 
 /* ---------- RESUME ---------- */
 function Resume() {
+  const resumeUrl = `${import.meta.env.BASE_URL}resume/Dhanusri_Ganesan_Resume.pdf`;
+
   return (
     <Section id="resume">
       <div className="glass-strong relative overflow-hidden rounded-3xl p-8 text-center sm:p-12">
@@ -867,14 +870,14 @@ function Resume() {
         </p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <a
-            href="/resume/Dhanusri_Ganesan_Resume.pdf"
+            href={resumeUrl}
             download
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold btn-primary"
           >
             <Download className="h-4 w-4" /> Download Resume
           </a>
           <a
-            href="/resume/Dhanusri_Ganesan_Resume.pdf"
+            href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold btn-ghost"
@@ -893,7 +896,7 @@ function Contact() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   };
 
@@ -908,7 +911,7 @@ function Contact() {
     return Object.keys(e).length === 0;
   };
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
@@ -1037,7 +1040,7 @@ function Field({
   type?: string;
   placeholder?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
 }) {
   return (
